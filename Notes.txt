@@ -1,0 +1,67 @@
+initialization
+npm react-native start
+npx react-native run-android
+
+How to sign the apk?
+Generating a signing key
+keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+Will prompt for:
+    - passwords for the keystore and key
+    - Distinguished Name fields for your key
+
+Will generate:
+    - my-release-key.keystore
+
+Note: Remember to keep your keystore file private and never commit it to version control.
+Add to git ignore
+
+Setting up gradle variables
+1. Place the my-release-key.keystore file under the android/app directory in your project folder.
+2. Edit the file ~/.gradle/gradle.properties or android/gradle.properties and add the following 
+(replace ***** with the correct keystore password, alias and key password),
+
+MYAPP_RELEASE_STORE_FILE=my-release-key.keystore
+MYAPP_RELEASE_KEY_ALIAS=my-key-alias
+MYAPP_RELEASE_STORE_PASSWORD=*****
+MYAPP_RELEASE_KEY_PASSWORD=*****
+
+Adding signing config to your app's gradle config
+Edit the file android/app/build.gradle in your project folder and add the signing config,
+
+...
+android {
+    ...
+    defaultConfig { ... }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        release {
+            ...
+            signingConfig signingConfigs.release
+        }
+    }
+}
+...
+
+Generating the release APK
+cd android && ./gradlew assembleRelease
+
+Output can be found in:
+android/app/build/outputs/apk/app-release.apk
+
+
+What is my application about?
+It's a travel app where we can leave notes about our current location
+and our friends and family can know where we are while traveling.
+
+Screen 1: Map where we can see the places we've been and notes added there.
+Screen 2: A chronological list of all our notes and the places.
+Screen 3: A Form page where we can add our notes.
