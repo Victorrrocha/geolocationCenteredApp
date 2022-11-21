@@ -38,9 +38,6 @@ function AddMarker() {
       ? context.store.selectedPosition
       : context.store.position;
 
-  // console.log('Selected Position');
-  // console.log(defaultPosition);
-
   const theme = useTheme() as Theme;
   const {
     control,
@@ -60,11 +57,9 @@ function AddMarker() {
   });
 
   const onSelectType = (type: string, obj: any) => {
-    // if already selected, return
     if (getValues().type === type) {
       return;
     }
-    //if new value, update setSelectedType and set Value to new type
     setTypeSelected(() => {
       return {...defaultState, ...obj};
     });
@@ -74,7 +69,6 @@ function AddMarker() {
   const onSubmit = (data: MapMarker) => {
     setValue('id', data.title);
     setValue('coordinate', defaultPosition);
-    // console.log(data);
     context.addNewMarker(getValues());
     reset();
   };

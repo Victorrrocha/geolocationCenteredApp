@@ -1,4 +1,4 @@
-import {useState, useContext, useRef, useEffect} from 'react';
+import {useState, useContext} from 'react';
 import MapView, {Marker} from 'react-native-maps';
 import {Dimensions, View} from 'react-native';
 import MapRegion from '../interfaces/MapRegion.interface';
@@ -27,13 +27,6 @@ const {width, height} = Dimensions.get('screen');
 const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
   const context = useContext(GeolocationContext);
   const [isModalVisible, setModalVisible] = useState(false);
-  // const [mapMarkers, setMarkers] = useState(context.store.markers);
-
-  // useEffect(() => {
-  //   if (JSON.stringify(mapMarkers) !== JSON.stringify(context.store.markers)) {
-  //     setMarkers(context.store.markers);
-  //   }
-  // }, [context]);
 
   const onPress = (e: any) => {
     const touchedPostion = e.nativeEvent;
@@ -42,16 +35,11 @@ const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
       coordinate: touchedPostion.coordinate,
     };
     mapMarkers.push(TempMarker);
-    // setMarkers(prev => {
-    //   console.log([...prev, TempMarker]);
-    //   return [...prev, TempMarker];
-    // });
     setModalVisible(true);
   };
 
   const onCancel = () => {
     mapMarkers.pop();
-    // setMarkers(prev => prev.slice(0, prev.length - 1));
     context.setSelectedPosition(undefined);
     setModalVisible(false);
   };
@@ -59,7 +47,6 @@ const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
   const onConfirm = () => {
     const selectedMarker = mapMarkers[mapMarkers.length - 1];
     mapMarkers.pop();
-    // setMarkers(prev => prev.slice(0, prev.length - 1));
     const newMapRegion = {
       ...DefaultRegion,
       latitude: selectedMarker.coordinate.latitude,

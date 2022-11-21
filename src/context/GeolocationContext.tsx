@@ -5,7 +5,6 @@ import {GeolocationState} from '../interfaces/Reducer.types';
 import geolocationReducer from './geo-app-reducer';
 import {createContext} from 'react';
 import MapRegion from '../interfaces/MapRegion.interface';
-import DefaultRegion from '../utils/DefaultMapRegion';
 
 const defaultState: GeolocationState = {
   position: undefined,
@@ -24,7 +23,6 @@ export const GeolocationProvider = ({children}: any) => {
   );
 
   const setCurrentPosition = (position: MapRegion | undefined) => {
-    console.log('Update Current Position');
     dispatchAction({type: 'SET_POSITION', item: position});
   };
 

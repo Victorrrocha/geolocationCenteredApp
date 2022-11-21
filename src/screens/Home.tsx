@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useCallback,
-  useRef,
-} from 'react';
+import React, {useEffect, useState, useContext, useCallback} from 'react';
 import {init} from '../geolocation-service/main';
 import {View} from 'react-native';
 import Map from '../components/Map';
@@ -18,14 +12,12 @@ export default function Home({
 }: BottomTabScreenProps<ParamListBase>) {
   const context = useContext(GeolocationContext);
   const [mapMarkers, setMarkers] = useState(context.store.markers);
-  // let markers = useRef([]);
   const initializeMap = useCallback(() => {
     init().then(response => {
       if (response) {
         if (
           JSON.stringify(context.store.position) !== JSON.stringify(response)
         ) {
-          // console.log('Update position');
           context.setCurrentPosition(response);
         }
       }

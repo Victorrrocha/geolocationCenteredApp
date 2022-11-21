@@ -2,17 +2,13 @@ import MapMarker from '../interfaces/MapMarker.interface';
 import {GeolocationState} from '../interfaces/Reducer.types';
 
 function addMarker(state: GeolocationState, marker: MapMarker) {
-  // console.log(marker);
   const index = state.markers.findIndex(
     savedMarker => savedMarker.id === marker.id,
   );
   if (index !== -1) {
-    console.log('REPLACING');
     state.markers[index] = marker;
     return state;
   }
-  //console.log('NEW STATE');
-  //console.log({...state, markers: [...state.markers, marker]});
   return {...state, markers: [...state.markers, marker]};
 }
 
@@ -40,8 +36,6 @@ const geolocationReducer = (state: any, action: any) => {
     case 'DELETE':
       return deleteMarker(state, action.item);
     case 'SET_POSITION':
-      // console.log('SETTING POSITION');
-      // console.log({...state, position: action.item});
       return {...state, position: action.item};
     case 'SET_SELECTED_POSITION':
       return {...state, selectedPosition: action.item};

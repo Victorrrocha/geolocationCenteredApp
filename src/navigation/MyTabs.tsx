@@ -35,11 +35,11 @@ function MyTabs() {
           tabPress: e => e.preventDefault(),
         }}
         options={{
-          tabBarIcon: ({focused, color}) => (
+          tabBarIcon: ({focused}) => (
             <Ionicons
               name="add-circle-outline"
               size={30}
-              color={focused ? theme.color.primary : color}
+              color={focused ? theme.color.primary : theme.color.disabled}
             />
           ),
         }}
