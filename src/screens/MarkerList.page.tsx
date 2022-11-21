@@ -11,7 +11,7 @@ function MarkerList({navigation}: BottomTabScreenProps<ParamListBase>) {
   const context = useContext(GeolocationContext);
   let markersList = context.store.markers;
   // const [markersList, setMarkersList] = useState([]);
-  console.log('list of markers' + markersList);
+  // console.log('list of markers' + markersList);
 
   // useEffect(() => {
   //   const unsubscribe = navigation.addListener('focus', () => {

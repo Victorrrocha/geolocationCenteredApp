@@ -65,6 +65,9 @@ const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
       latitude: selectedMarker.coordinate.latitude,
       longitude: selectedMarker.coordinate.longitude,
     };
+    console.log('MAP REGION');
+    console.log(newMapRegion);
+
     context.setSelectedPosition(newMapRegion);
     setModalVisible(false);
     navigation.navigate('Add New Marker');

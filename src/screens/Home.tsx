@@ -17,14 +17,15 @@ export default function Home({
   navigation,
 }: BottomTabScreenProps<ParamListBase>) {
   const context = useContext(GeolocationContext);
-  let markers = useRef([]);
+  const [mapMarkers, setMarkers] = useState(context.store.markers);
+  // let markers = useRef([]);
   const initializeMap = useCallback(() => {
     init().then(response => {
       if (response) {
         if (
           JSON.stringify(context.store.position) !== JSON.stringify(response)
         ) {
-          console.log('Update position');
+          // console.log('Update position');
           context.setCurrentPosition(response);
         }
       }
@@ -38,12 +39,12 @@ export default function Home({
   }, [initializeMap]);
 
   useEffect(() => {
-    markers.current = context.store.markers;
+    setMarkers(context.store.markers);
   }, [context.store.markers]);
 
   const mapProps: MapProps = {
     region: context.store.position,
-    mapMarkers: [...markers.current],
+    mapMarkers: mapMarkers,
   };
 
   return (

@@ -1,5 +1,5 @@
 import {Controller, useForm} from 'react-hook-form';
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import {Text, Pressable} from 'react-native';
 import Input from '../components/styled/Input.styled';
 import Layout from '../components/Layout';
@@ -34,10 +34,12 @@ function AddMarker() {
   console.log(context.store.selectedPosition);
 
   const defaultPosition =
-    context.store.selectedPosition || context.store.position;
+    context.store.selectedPosition !== undefined
+      ? context.store.selectedPosition
+      : context.store.position;
 
-  console.log('Selected Position');
-  console.log(defaultPosition);
+  // console.log('Selected Position');
+  // console.log(defaultPosition);
 
   const theme = useTheme() as Theme;
   const {
@@ -71,6 +73,7 @@ function AddMarker() {
 
   const onSubmit = (data: MapMarker) => {
     setValue('id', data.title);
+    setValue('coordinate', defaultPosition);
     // console.log(data);
     context.addNewMarker(getValues());
     reset();

@@ -7,6 +7,7 @@ function addMarker(state: GeolocationState, marker: MapMarker) {
     savedMarker => savedMarker.id === marker.id,
   );
   if (index !== -1) {
+    console.log('REPLACING');
     state.markers[index] = marker;
     return state;
   }
@@ -39,8 +40,8 @@ const geolocationReducer = (state: any, action: any) => {
     case 'DELETE':
       return deleteMarker(state, action.item);
     case 'SET_POSITION':
-      console.log('SETTING POSITION');
-      console.log({...state, position: action.item});
+      // console.log('SETTING POSITION');
+      // console.log({...state, position: action.item});
       return {...state, position: action.item};
     case 'SET_SELECTED_POSITION':
       return {...state, selectedPosition: action.item};
