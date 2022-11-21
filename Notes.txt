@@ -65,3 +65,24 @@ and our friends and family can know where we are while traveling.
 Screen 1: Map where we can see the places we've been and notes added there.
 Screen 2: A chronological list of all our notes and the places.
 Screen 3: A Form page where we can add our notes.
+
+
+
+React native Navigation
+npm install react-native-screens react-native-safe-area-context
+Add this in MainActivity.java
+import android.os.Bundle;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+  super.onCreate(null);
+}
+
+Add new page of the saved footprints
+Learn about flatlists and lists in general in react native
+
+Lists views
+flatlists
+    good for long list of data
+    Number might change over time
+    Only renders elements that are currently on screens
+    input: data, renderItem

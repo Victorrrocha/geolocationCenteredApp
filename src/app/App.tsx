@@ -1,12 +1,18 @@
-import {Text, View} from 'react-native';
-import Home from '../screens/Home';
+import {NavigationContainer} from '@react-navigation/native';
+import {ThemeProvider} from 'styled-components';
+import {GeolocationProvider} from '../context/GeolocationContext';
+import MyTabs from '../navigation/MyTabs';
+import theme from '../styled/theme';
 
 const App = function () {
   return (
-    <View>
-      <Text>Geolocation App</Text>
-      <Home />
-    </View>
+    <GeolocationProvider>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <MyTabs />
+        </NavigationContainer>
+      </ThemeProvider>
+    </GeolocationProvider>
   );
 };
 

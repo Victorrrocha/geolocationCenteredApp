@@ -1,10 +1,19 @@
-import Geolocation, {GeoCoordinates} from 'react-native-geolocation-service';
+import Geolocation from 'react-native-geolocation-service';
+import MapRegion from '../interfaces/MapRegion.interface';
 
-export const getGeolocation = (): Promise<GeoCoordinates | undefined> => {
+export const getGeolocation = (): Promise<MapRegion | undefined> => {
   return new Promise(resolve => {
     Geolocation.getCurrentPosition(
       position => {
-        position?.coords && resolve(position.coords);
+        if (position?.coords) {
+          const region: MapRegion = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          };
+          resolve(region);
+        }
       },
       () => {
         resolve(undefined);
