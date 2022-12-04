@@ -43,15 +43,6 @@ export const mapStyle = [
   },
   {
     featureType: 'administrative.land_parcel',
-    elementType: 'labels',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.land_parcel',
     elementType: 'labels.text.fill',
     stylers: [
       {
@@ -74,15 +65,6 @@ export const mapStyle = [
     stylers: [
       {
         color: '#dfd2ae',
-      },
-    ],
-  },
-  {
-    featureType: 'poi',
-    elementType: 'labels.text',
-    stylers: [
-      {
-        visibility: 'off',
       },
     ],
   },
@@ -181,15 +163,6 @@ export const mapStyle = [
     stylers: [
       {
         color: '#db8555',
-      },
-    ],
-  },
-  {
-    featureType: 'road.local',
-    elementType: 'labels',
-    stylers: [
-      {
-        visibility: 'off',
       },
     ],
   },

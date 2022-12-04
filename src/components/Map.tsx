@@ -1,14 +1,18 @@
-import {useState, useContext} from 'react';
+import {useState} from 'react';
 import MapView, {Marker} from 'react-native-maps';
-import {Dimensions, View} from 'react-native';
+import {Dimensions} from 'react-native';
 import MapRegion from '../interfaces/MapRegion.interface';
 import {mapStyle} from '../styled/mapStyle';
 import MapMarker from '../interfaces/MapMarker.interface';
-import {GeolocationContext} from '../context/GeolocationContext';
 import DefaultRegion from '../utils/DefaultMapRegion';
 import CustomMarker from './CustomMarker';
 import Modal from './Modal';
 import {ModalProps} from './Modal';
+import {Box} from 'native-base';
+import {useDispatch, useSelector} from 'react-redux';
+import {setSelectedPosition} from '../redux/geolocationSlice';
+import {RootState} from '../redux/store';
+import {mapStyleDark} from '../styled/mapStyleDark';
 
 export type DimentionsType = {
   width: number | string;
@@ -25,7 +29,8 @@ export type MapProps = {
 const {width, height} = Dimensions.get('screen');
 
 const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
-  const context = useContext(GeolocationContext);
+  const dispatch = useDispatch();
+  const darkMode = useSelector((state: RootState) => state.config.darkMode);
   const [isModalVisible, setModalVisible] = useState(false);
 
   const onPress = (e: any) => {
@@ -40,7 +45,7 @@ const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
 
   const onCancel = () => {
     mapMarkers.pop();
-    context.setSelectedPosition(undefined);
+    dispatch(setSelectedPosition(undefined));
     setModalVisible(false);
   };
 
@@ -52,10 +57,8 @@ const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
       latitude: selectedMarker.coordinate.latitude,
       longitude: selectedMarker.coordinate.longitude,
     };
-    console.log('MAP REGION');
-    console.log(newMapRegion);
 
-    context.setSelectedPosition(newMapRegion);
+    dispatch(setSelectedPosition(newMapRegion));
     setModalVisible(false);
     navigation.navigate('Add New Marker');
   };
@@ -72,14 +75,14 @@ const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
   };
 
   return (
-    <View>
+    <Box>
       <Modal {...modalProps} />
       <MapView
         onPress={onPress}
         style={MapDimentions}
         region={region}
         showsUserLocation={true}
-        customMapStyle={mapStyle}>
+        customMapStyle={darkMode ? mapStyleDark : mapStyle}>
         {mapMarkers.length > 0 &&
           mapMarkers.map(mapMarker => {
             return (
@@ -89,7 +92,7 @@ const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
             );
           })}
       </MapView>
-    </View>
+    </Box>
   );
 };
 

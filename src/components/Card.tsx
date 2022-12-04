@@ -1,28 +1,24 @@
-import {View, StyleSheet} from 'react-native';
+import {Flex} from 'native-base';
+import {useSelector} from 'react-redux';
+import {RootState} from '../redux/store';
 
-const Card = ({children}) => {
-  return <View style={styles.card}>{children}</View>;
+const Card = ({children}: any) => {
+  const darkMode = useSelector((state: RootState) => state.config.darkMode);
+
+  return (
+    <Flex
+      flexDirection="row"
+      alignItems="center"
+      mb="10px"
+      bgColor={darkMode ? '#415362' : '#fff'}
+      padding="10px"
+      borderWidth="1px"
+      borderRadius="10px"
+      borderColor="transparent"
+      shadow="2">
+      {children}
+    </Flex>
+  );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    backgroundColor: '#fff',
-    padding: 10,
-    flex: 1,
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: 'transparent',
-    borderBottomWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 10},
-    shadowOpacity: 0.1,
-    shadowRadius: 15,
-    elevation: 1,
-  },
-});
 
 export default Card;

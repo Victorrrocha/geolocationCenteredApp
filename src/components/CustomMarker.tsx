@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import theme from '../styled/theme';
+import CONSTANTS from '../utils/CONSTANTS';
 import CustomMarkerContainer from './CustomMarkerContainer';
 
 type CustomMarkerProps = {
@@ -14,19 +15,20 @@ type CustomMarkerProps = {
 
 const CustomMarker = ({type, size, selected}: CustomMarkerProps) => {
   const {heart, shopping, culture, food, amusement} = theme.color.markerBg;
-  const iconSize = size === 'large' ? 20 : 10;
+  const iconSize =
+    size === 'large' ? CONSTANTS.ICON_LARGE : CONSTANTS.ICON_SMALL;
   let bgColor = heart;
   let Icon;
   switch (type) {
-    case 'SHOPPING':
+    case CONSTANTS.SHOPPING:
       bgColor = shopping;
       Icon = <FontAwesome size={iconSize} color={'#fff'} name="shopping-bag" />;
       break;
-    case 'FOOD':
+    case CONSTANTS.FOOD:
       bgColor = food;
       Icon = <Ionicons size={iconSize} color={'#fff'} name="fast-food" />;
       break;
-    case 'AMUSEMENT':
+    case CONSTANTS.AMUSEMENT:
       bgColor = amusement;
       Icon = (
         <MaterialCommunityIcons
@@ -36,7 +38,7 @@ const CustomMarker = ({type, size, selected}: CustomMarkerProps) => {
         />
       );
       break;
-    case 'CULTURE':
+    case CONSTANTS.CULTURE:
       bgColor = culture;
       Icon = <MaterialIcons size={iconSize} color={'#fff'} name="museum" />;
       break;

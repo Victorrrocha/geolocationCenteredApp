@@ -1,47 +1,40 @@
-import React, {useEffect, useState, useContext, useCallback} from 'react';
+import React, {useEffect} from 'react';
 import {init} from '../geolocation-service/main';
-import {View} from 'react-native';
 import Map from '../components/Map';
 import {MapProps} from '../components/Map';
-import {GeolocationContext} from '../context/GeolocationContext';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {ParamListBase} from '@react-navigation/native';
+import {useSelector, useDispatch} from 'react-redux';
+import {setCurrentPosition} from '../redux/geolocationSlice';
+import {RootState} from '../redux/store';
 
 export default function Home({
   navigation,
 }: BottomTabScreenProps<ParamListBase>) {
-  const context = useContext(GeolocationContext);
-  const [mapMarkers, setMarkers] = useState(context.store.markers);
-  const initializeMap = useCallback(() => {
-    init().then(response => {
-      if (response) {
-        if (
-          JSON.stringify(context.store.position) !== JSON.stringify(response)
-        ) {
-          context.setCurrentPosition(response);
-        }
-      }
-    });
-  }, [context]);
-
   console.log('Home PAGE rerender');
 
-  useEffect(() => {
-    initializeMap();
-  }, [initializeMap]);
+  const dispatch = useDispatch();
+  const markers = useSelector((state: RootState) => state.geolocation.markers);
+  const position = useSelector(
+    (state: RootState) => state.geolocation.position,
+  );
 
   useEffect(() => {
-    setMarkers(context.store.markers);
-  }, [context.store.markers]);
+    init().then(response => {
+      if (response && JSON.stringify(position) !== JSON.stringify(response)) {
+        dispatch(setCurrentPosition(response));
+      }
+    });
+  });
 
   const mapProps: MapProps = {
-    region: context.store.position,
-    mapMarkers: mapMarkers,
+    region: position,
+    mapMarkers: [...markers],
   };
 
   return (
-    <View>
+    <>
       <Map {...mapProps} navigation={navigation} />
-    </View>
+    </>
   );
 }

@@ -1,5 +1,6 @@
+import {Box} from 'native-base';
 import React from 'react';
-import {Text, View, Modal as ModalComponent, StyleSheet} from 'react-native';
+import {Text, Modal as ModalComponent} from 'react-native';
 import theme from '../styled/theme';
 import Button from './styled/Button.styled';
 
@@ -16,48 +17,32 @@ function Modal({isModalVisible, onCancel, onConfirm}: ModalProps) {
       transparent={true}
       onRequestClose={onCancel}
       visible={isModalVisible}>
-      <View style={styles.modalView}>
-        <View style={styles.modalContainer}>
+      <Box
+        flex={1}
+        flexDirection="column"
+        justifyContent="flex-end"
+        px="20px"
+        pb="70px">
+        <Box padding={5} bgColor="#fff">
           <Text>Create Marker here?</Text>
-          <View style={styles.modalButtonsContainer}>
+          <Box mt="15px" flexDirection="row" justifyContent="flex-end">
             <Button
               color={theme.color.secondary}
               title="Cancel"
               onPress={onCancel}
             />
-            <View style={styles.modalButton}>
+            <Box ml="10px">
               <Button
                 color={theme.color.primary}
                 title="Confirm"
                 onPress={onConfirm}
               />
-            </View>
-          </View>
-        </View>
-      </View>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
     </ModalComponent>
   );
 }
-
-const styles = StyleSheet.create({
-  modalView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    marginBottom: 60,
-    paddingHorizontal: 20,
-  },
-  modalContainer: {
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  modalButtonsContainer: {
-    marginTop: 15,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  modalButton: {
-    marginLeft: 10,
-  },
-});
 
 export default Modal;

@@ -86,3 +86,10 @@ flatlists
     Number might change over time
     Only renders elements that are currently on screens
     input: data, renderItem
+
+
+Expected behavior of the application
+User opens app
+The app calculates the current position and displays it on the map
+After 2 minutes, calculates the position again
+if the difference between the positions surpasses a threshold, update the user position on the map
