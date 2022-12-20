@@ -6,18 +6,22 @@ import theme from '../styled/theme';
 import {NativeBaseProvider} from 'native-base';
 import {Provider} from 'react-redux';
 import {store} from '../redux/store';
+import {apolloClient} from '../utils/apolloClient';
+import {ApolloProvider} from '@apollo/client';
 
 const App = function () {
   return (
-    <Provider store={store}>
-      <NativeBaseProvider>
-        <ThemeProvider theme={theme}>
-          <NavigationContainer>
-            <MyTabs />
-          </NavigationContainer>
-        </ThemeProvider>
-      </NativeBaseProvider>
-    </Provider>
+    <ApolloProvider client={apolloClient}>
+      <Provider store={store}>
+        <NativeBaseProvider>
+          <ThemeProvider theme={theme}>
+            <NavigationContainer>
+              <MyTabs />
+            </NavigationContainer>
+          </ThemeProvider>
+        </NativeBaseProvider>
+      </Provider>
+    </ApolloProvider>
   );
 };
 

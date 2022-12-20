@@ -1,19 +1,22 @@
 import {Controller, useForm} from 'react-hook-form';
 import React, {useState} from 'react';
-import {Text, Pressable} from 'react-native';
+import {Pressable} from 'react-native';
 import Input from '../components/styled/Input.styled';
 import Layout from '../components/Layout';
-import {Box, Button} from 'native-base';
-import {useTheme} from 'styled-components';
+import {Box, Row, Text} from 'native-base';
+import Button from '../components/styled/Button.styled';
 import Form from '../components/styled/Form.styled';
-import {Theme} from '../styled/theme';
 import CustomMarker from '../components/CustomMarker';
-import MapMarker from '../interfaces/MapMarker.interface';
 import {HStack} from 'native-base';
 import {useSelector, useDispatch} from 'react-redux';
 import {addMarker} from '../redux/geolocationSlice';
 import {RootState} from '../redux/store';
 import Page from '../components/Page';
+import FoldersDropdown from '../components/FoldersDropdown';
+import uuid from 'react-native-uuid';
+import CurrenciesDropdown from '../components/CurrenciesDropdown';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {ParamListBase} from '@react-navigation/native';
 
 const defaultState = {
   heart: false,
@@ -23,14 +26,18 @@ const defaultState = {
   culture: false,
 };
 
-function AddMarker() {
-  console.log('Add marker page re rendered');
+function AddMarker({navigation}: BottomTabScreenProps<ParamListBase>) {
+  // console.log('Add marker page re rendered');
   const dispatch = useDispatch();
   const position = useSelector(
     (state: RootState) => state.geolocation.position,
   );
   const selectedPosition = useSelector(
     (state: RootState) => state.geolocation.selectedPosition,
+  );
+
+  const currentFolder = useSelector(
+    (state: RootState) => state.geolocation.currentFolder,
   );
 
   const [typeSelected, setTypeSelected] = useState({
@@ -44,7 +51,6 @@ function AddMarker() {
   const defaultPosition =
     selectedPosition !== undefined ? selectedPosition : position;
 
-  const theme = useTheme() as Theme;
   const {
     control,
     setValue,
@@ -56,11 +62,18 @@ function AddMarker() {
     defaultValues: {
       id: '',
       coordinate: defaultPosition,
+      folder: currentFolder,
       title: '',
       description: '',
+      price: '',
+      currency: 'USD',
       type: 'HEART',
     },
   });
+
+  const onChangeCurrency = (currency: string) => {
+    setValue('currency', currency);
+  };
 
   const onSelectType = (type: string, obj: any) => {
     if (getValues().type === type) {
@@ -72,20 +85,28 @@ function AddMarker() {
     setValue('type', type);
   };
 
-  const onSubmit = (data: MapMarker) => {
-    setValue('id', data.title);
+  const onSelectFolder = (folder: string) => {
+    setValue('folder', folder);
+  };
+
+  const onSubmit = () => {
+    setValue('id', uuid.v4().toString());
     setValue('coordinate', defaultPosition);
     dispatch(addMarker(getValues()));
     reset();
     setTypeSelected(() => {
       return {...defaultState, heart: true};
     });
+    navigation.navigate('HomePage');
   };
 
   return (
     <Page>
       <Layout>
         <Form>
+          <Box>
+            {errors.title && <Text color="red.900">Cannot be empty</Text>}
+          </Box>
           <Controller
             control={control}
             rules={{required: true}}
@@ -100,8 +121,6 @@ function AddMarker() {
             name="title"
           />
 
-          {errors.title && <Text>Precisa adicionar um título</Text>}
-
           <Controller
             control={control}
             rules={{required: false}}
@@ -114,6 +133,26 @@ function AddMarker() {
               />
             )}
             name="description"
+          />
+
+          <Controller
+            control={control}
+            rules={{required: false}}
+            render={({field: {onChange, onBlur, value}}) => (
+              <Row space={2}>
+                <Box w="70%">
+                  <Input
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                    placeholder="Price (optional)"
+                    keyboardType="numeric"
+                  />
+                </Box>
+                <CurrenciesDropdown onSelect={onChangeCurrency} />
+              </Row>
+            )}
+            name="price"
           />
 
           <HStack justifyContent="center" space={7} mb="15px">
@@ -156,12 +195,13 @@ function AddMarker() {
             </Pressable>
           </HStack>
 
+          <Box>
+            <Text color="coolGray.600">Add to the trip:</Text>
+            <FoldersDropdown onSelect={onSelectFolder} />
+          </Box>
+
           <Box flex="1" justifyContent="flex-end">
-            <Button
-              color={theme.color.primary}
-              onPress={handleSubmit(onSubmit)}>
-              Create Marker
-            </Button>
+            <Button title="Create Marker" onPress={handleSubmit(onSubmit)} />
           </Box>
         </Form>
       </Layout>

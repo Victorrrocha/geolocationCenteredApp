@@ -14,12 +14,17 @@ type CustomMarkerProps = {
 };
 
 const CustomMarker = ({type, size, selected}: CustomMarkerProps) => {
-  const {heart, shopping, culture, food, amusement} = theme.color.markerBg;
+  const {home, heart, shopping, culture, food, amusement} =
+    theme.color.markerBg;
   const iconSize =
     size === 'large' ? CONSTANTS.ICON_LARGE : CONSTANTS.ICON_SMALL;
   let bgColor = heart;
   let Icon;
   switch (type) {
+    case CONSTANTS.HOME:
+      bgColor = home;
+      Icon = <FontAwesome size={iconSize} color={'#fff'} name="home" />;
+      break;
     case CONSTANTS.SHOPPING:
       bgColor = shopping;
       Icon = <FontAwesome size={iconSize} color={'#fff'} name="shopping-bag" />;

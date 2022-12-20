@@ -6,6 +6,7 @@ export type Theme = {
     dark: string;
     disabled: string;
     markerBg: {
+      home: string;
       heart: string;
       shopping: string;
       food: string;
@@ -26,11 +27,12 @@ export type Theme = {
 const theme: Theme = {
   color: {
     primary: 'deepskyblue',
-    secondary: '#c3c3c3',
+    secondary: '#c0bebe',
     disabled: '#eeeeee',
     light: '#000',
     dark: '#fff',
     markerBg: {
+      home: '#a71be7',
       heart: '#d62323',
       shopping: '#e2bc12',
       food: '#ec7729',

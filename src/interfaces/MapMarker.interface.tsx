@@ -8,6 +8,9 @@ type coordinate = {
 type MapMarker = {
   id: string;
   coordinate: coordinate;
+  folder: string;
+  price?: string | number;
+  currency?: string;
   title?: string;
   description?: string;
   type?: string;

@@ -23,7 +23,7 @@ export const askLocationPermission = async () => {
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       getGeolocation();
     } else {
-      console.log('Location permission denied');
+      // console.log('Location permission denied');
     }
   } catch (err) {
     console.warn(err);

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "42847457486",
+    "project_id": "footprint-geolocation-project",
+    "storage_bucket": "footprint-geolocation-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:42847457486:android:d13778ebe438c25462409f",
+        "android_client_info": {
+          "package_name": "com.geolocationcenteredapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "42847457486-roafufqpd5oscssb60md3hoep48btu33.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPuAc3HKSpZFG7YK_zfkuZtbWM-zYKtTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "42847457486-roafufqpd5oscssb60md3hoep48btu33.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

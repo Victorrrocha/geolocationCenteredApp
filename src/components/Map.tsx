@@ -31,12 +31,16 @@ const {width, height} = Dimensions.get('screen');
 const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
   const dispatch = useDispatch();
   const darkMode = useSelector((state: RootState) => state.config.darkMode);
+  const currentFolder = useSelector(
+    (state: RootState) => state.geolocation.currentFolder,
+  );
   const [isModalVisible, setModalVisible] = useState(false);
 
   const onPress = (e: any) => {
     const touchedPostion = e.nativeEvent;
     const TempMarker: MapMarker = {
       id: JSON.stringify(touchedPostion.position),
+      folder: currentFolder,
       coordinate: touchedPostion.coordinate,
     };
     mapMarkers.push(TempMarker);
@@ -84,13 +88,20 @@ const Map = ({dimension, region, mapMarkers, navigation}: MapProps) => {
         showsUserLocation={true}
         customMapStyle={darkMode ? mapStyleDark : mapStyle}>
         {mapMarkers.length > 0 &&
-          mapMarkers.map(mapMarker => {
-            return (
-              <Marker key={mapMarker.id} {...mapMarker}>
-                <CustomMarker type={mapMarker.type} />
-              </Marker>
-            );
-          })}
+          mapMarkers
+            .filter(mapMarker => {
+              if (currentFolder === 'All') {
+                return true;
+              }
+              return mapMarker.folder === currentFolder;
+            })
+            .map(mapMarker => {
+              return (
+                <Marker key={mapMarker.id} {...mapMarker}>
+                  <CustomMarker type={mapMarker.type} />
+                </Marker>
+              );
+            })}
       </MapView>
     </Box>
   );
